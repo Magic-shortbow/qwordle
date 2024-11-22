@@ -58,3 +58,11 @@ find_best_choice: {[guesses;results]
     guess_restriction?min_restriction
     ]
   };
+
+
+if[not ()~.z.x;
+  in_data: "," vs' read0 `$":",first .z.x;
+  show "CALCULATING BEST GUESS";
+  show find_best_choice[first in_data; last in_data];
+  ];
+
