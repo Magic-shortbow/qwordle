@@ -16,6 +16,7 @@ compare_old: {[w1;w2]
   };
 
 
+// return Wordle result as string using "gbo"
 compare: {[target;guess]
   matches: target=guess;
   res: ?[matches;5#"g";5#"b"];
@@ -29,20 +30,31 @@ compare: {[target;guess]
   };
 
 
-find_possible:{[guesses;results]
-  possible: read0`:data/possibleWords.txt;
-  possible: {[possible;guess;result]
-    :possible where $[`;result]=`$compare[;guess] each possible;
-    }/[possible;guesses;results];
-    show possible;
-    :possible
+// return reduced list of possible words from given guess and result
+restrict_possible: {[possible;guess;result]
+  :possible where $[`;result]=`$compare[;guess] each possible
   };
 
 
-show find_possible[("canes";"ample");("bobob";"obooo")];
+// return highest possible remaining answers given guess
+analyse_guess: {[choices;guess]
+  :max count each group compare[;guess]each choices
+  };
 
 
-neo_compare:{[w1;w2]
-  // group somehow?
-  comp'[group w1;group w2];
+find_best_choice: {[guesses;results]
+  possible: read0`:data/possibleWords.txt;
+  allowed_guesses: read0`:data/allowedWords.txt;
+
+  // get all possible words
+  choices: restrict_possible/[possible;guesses;results];
+  if[3>count choices;:first choices];
+
+  // find guess to restrict as much as possible
+  guess_restriction: allowed_guesses!analyse_guess[choices] each allowed_guesses;
+  min_restriction: min guess_restriction;
+  :$[not ""~choice_res:#[choices;guess_restriction]?min_restriction;
+    choice_res;
+    guess_restriction?min_restriction
+    ]
   };
