@@ -1,5 +1,7 @@
 # qwordle
-Worlde solver written in q
+Worlde solver written in q.
+
+
 
 Gives best guess given your results.
 Input by creating a text file with your guesses and results first line being your guesses and second line being results, all comma separated.
@@ -14,3 +16,6 @@ bobob,obooo,oboob
 Run solve.q with argument as path to your input file.
 Example
 `q solve.q input.txt`
+
+
+NOTE: This only works for the official New York Times Wordle, as the allowed words vary between remakes.
