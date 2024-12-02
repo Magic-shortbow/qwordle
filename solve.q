@@ -51,7 +51,7 @@ find_best_choice: {[guesses;results]
   if[3>count choices;:first choices];
 
   // find guess to restrict as much as possible
-  guess_restriction: allowed_guesses!analyse_guess[choices] each allowed_guesses;
+  guess_restriction: allowed_guesses!analyse_guess[choices] peach allowed_guesses;
   min_restriction: min guess_restriction;
   :$[not ""~choice_res:#[choices;guess_restriction]?min_restriction;
     choice_res;
